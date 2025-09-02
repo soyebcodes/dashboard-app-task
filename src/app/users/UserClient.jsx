@@ -3,6 +3,8 @@ import { useState, useMemo } from "react";
 
 export default function UsersClient({ users }) {
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const perPage = 5;
 
   const filtered = useMemo(() => {
     return users.filter(
@@ -12,6 +14,17 @@ export default function UsersClient({ users }) {
     );
   }, [users, search]);
 
+  // calcilate total page
+  const totalPages = Math.ceil(filtered.length / perPage);
+
+  const paginated = useMemo(() => {
+    const start = (page - 1) * perPage;
+    return filtered.slice(start, start + perPage);
+  }, [filtered, page, perPage]);
+
+  const handlePrev = () => setPage((p) => Math.max(1, p - 1));
+  const handleNext = () => setPage((p) => Math.min(totalPages, p + 1));
+
   return (
     <section className="p-6">
       <h1 className="text-2xl font-bold mb-4">Users</h1>
@@ -20,7 +33,10 @@ export default function UsersClient({ users }) {
       <input
         type="text"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1); // reset to first page when searching
+        }}
         placeholder="Search by name or email..."
         className="mb-4 w-full sm:w-80 px-3 py-2 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
@@ -37,7 +53,7 @@ export default function UsersClient({ users }) {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((user) => (
+            {paginated.map((user) => (
               <tr key={user.id} className="hover:bg-gray-900 transition-colors">
                 <td className="border border-gray-700 p-2 font-medium">
                   {user.name}
@@ -51,6 +67,27 @@ export default function UsersClient({ users }) {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* pagination btn */}
+      <div className="flex items-center justify-between mt-4">
+        <button
+          onClick={handlePrev}
+          disabled={page === 1}
+          className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700"
+        >
+          Prev
+        </button>
+        <span className="text-sm">
+          Page {page} of {totalPages}
+        </span>
+        <button
+          onClick={handleNext}
+          disabled={page === totalPages}
+          className="px-3 py-1 rounded-lg bg-gray-800 text-white disabled:opacity-50 hover:bg-gray-700"
+        >
+          Next
+        </button>
       </div>
     </section>
   );
