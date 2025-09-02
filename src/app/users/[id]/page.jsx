@@ -12,7 +12,7 @@ export default async function UserDetails({ params }) {
   const user = await getUser(params.id);
 
   return (
-    <main className="p-6">
+    <main className="p-6 max-w-9/12 mx-auto">
       <Link
         href="/users"
         className="text-sm text-blue-400 hover:underline mb-4 inline-block"
@@ -23,7 +23,7 @@ export default async function UserDetails({ params }) {
       <h1 className="text-2xl font-bold mb-2">{user.name}</h1>
       <p className="text-gray-300 mb-4">@{user.username}</p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 ">
         <div className="bg-gray-800 p-4 rounded-lg">
           <h2 className="font-semibold mb-2">Contact</h2>
           <p>Email: {user.email}</p>

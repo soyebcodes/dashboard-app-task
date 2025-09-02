@@ -32,7 +32,7 @@ export default function UsersClient({ users }) {
   const handleNext = () => setPage((p) => Math.min(totalPages, p + 1));
 
   return (
-    <section className="p-6">
+    <section className="p-6  max-w-9/12 mx-auto">
       <Header3D />
       <h1 className="text-2xl font-bold mb-4">Users</h1>
 
