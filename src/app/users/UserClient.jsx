@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useMemo } from "react";
 
 export default function UsersClient({ users }) {
@@ -56,7 +57,12 @@ export default function UsersClient({ users }) {
             {paginated.map((user) => (
               <tr key={user.id} className="hover:bg-gray-900 transition-colors">
                 <td className="border border-gray-700 p-2 font-medium">
-                  {user.name}
+                  <Link
+                    href={`/users/${user.id}`}
+                    className="hover:underline text-blue-400"
+                  >
+                    {user.name}
+                  </Link>
                 </td>
                 <td className="border border-gray-700 p-2">{user.email}</td>
                 <td className="border border-gray-700 p-2">{user.phone}</td>
