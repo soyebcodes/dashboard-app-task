@@ -1,11 +1,14 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 
 export default function UsersClient({ users }) {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const perPage = 5;
+
+  const router = useRouter();
 
   const filtered = useMemo(() => {
     return users.filter(
@@ -55,14 +58,13 @@ export default function UsersClient({ users }) {
           </thead>
           <tbody>
             {paginated.map((user) => (
-              <tr key={user.id} className="hover:bg-gray-900 transition-colors">
+              <tr
+                key={user.id}
+                className="hover:bg-gray-900 transition-colors cursor-pointer"
+                onClick={() => router.push(`/users/${user.id}`)}
+              >
                 <td className="border border-gray-700 p-2 font-medium">
-                  <Link
-                    href={`/users/${user.id}`}
-                    className="hover:underline text-blue-400"
-                  >
-                    {user.name}
-                  </Link>
+                  {user.name}
                 </td>
                 <td className="border border-gray-700 p-2">{user.email}</td>
                 <td className="border border-gray-700 p-2">{user.phone}</td>
