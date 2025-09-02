@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 import { motion } from "motion/react";
+import Header3D from "@/components/Header3D";
 
 export default function UsersClient({ users }) {
   const [search, setSearch] = useState("");
@@ -32,6 +33,7 @@ export default function UsersClient({ users }) {
 
   return (
     <section className="p-6">
+      <Header3D />
       <h1 className="text-2xl font-bold mb-4">Users</h1>
 
       {/* Search Input */}
