@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
+import { motion } from "motion/react";
 
 export default function UsersClient({ users }) {
   const [search, setSearch] = useState("");
@@ -57,11 +58,15 @@ export default function UsersClient({ users }) {
             </tr>
           </thead>
           <tbody>
-            {paginated.map((user) => (
-              <tr
+            {paginated.map((user, index) => (
+              <motion.tr
                 key={user.id}
                 className="hover:bg-gray-900 transition-colors cursor-pointer"
                 onClick={() => router.push(`/users/${user.id}`)}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ scale: 1.02 }}
               >
                 <td className="border border-gray-700 p-2 font-medium">
                   {user.name}
@@ -71,7 +76,7 @@ export default function UsersClient({ users }) {
                 <td className="border border-gray-700 p-2">
                   {user.company.name}
                 </td>
-              </tr>
+              </motion.tr>
             ))}
           </tbody>
         </table>
